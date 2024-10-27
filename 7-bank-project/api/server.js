@@ -94,7 +94,11 @@ router.get('/accounts/:user', (req, res) => {
 
 // Remove specified account
 router.delete('/accounts/:user', (req, res) => {
-  const account = db[req.params.user];
+  const user = req.params.user;
+  if (user === '__proto__' || user === 'constructor' || user === 'prototype') {
+    return res.status(400).json({ error: 'Invalid user' });
+  }
+  const account = db[user];
 
   // Check if account exists
   if (!account) {
@@ -102,7 +106,7 @@ router.delete('/accounts/:user', (req, res) => {
   }
 
   // Removed account
-  delete db[req.params.user];
+  delete db[user];
 
   res.sendStatus(204);
 });
@@ -111,7 +115,11 @@ router.delete('/accounts/:user', (req, res) => {
 
 // Add a transaction to a specific account
 router.post('/accounts/:user/transactions', (req, res) => {
-  const account = db[req.params.user];
+  const user = req.params.user;
+  if (user === '__proto__' || user === 'constructor' || user === 'prototype') {
+    return res.status(400).json({ error: 'Invalid user' });
+  }
+  const account = db[user];
 
   // Check if account exists
   if (!account) {
@@ -164,7 +172,11 @@ router.post('/accounts/:user/transactions', (req, res) => {
 
 // Remove specified transaction from account
 router.delete('/accounts/:user/transactions/:id', (req, res) => {
-  const account = db[req.params.user];
+  const user = req.params.user;
+  if (user === '__proto__' || user === 'constructor' || user === 'prototype') {
+    return res.status(400).json({ error: 'Invalid user' });
+  }
+  const account = db[user];
 
   // Check if account exists
   if (!account) {
